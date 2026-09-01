@@ -1,8 +1,6 @@
 (() => {
   'use strict';
 
-  const PLACEHOLDER = 'assets/img/placeholder.svg';
-
   function initNav() {
     const toggle = document.querySelector('.menu-toggle');
     const nav = document.querySelector('.site-nav');
@@ -19,34 +17,6 @@
         toggle.setAttribute('aria-expanded', 'false');
       });
     });
-  }
-
-  function productImage(product) {
-    const src = product.image || PLACEHOLDER;
-    return `
-      <picture>
-        <source type="image/svg+xml" srcset="${src}">
-        <img src="${src}" alt="${product.name}" width="800" height="600" loading="lazy" decoding="async">
-      </picture>`;
-  }
-
-  function renderCatalog() {
-    const grid = document.getElementById('catalog-grid');
-    if (!grid || typeof FORTEO === 'undefined') return;
-
-    grid.innerHTML = FORTEO.products.map(p => `
-      <article class="product-card" id="${p.id}">
-        <div class="product-card__media">
-          ${productImage(p)}
-        </div>
-        <div class="product-card__body">
-          <span class="product-card__tag">${p.inStock ? 'В наличии' : 'На заказ'}</span>
-          <h3>${p.name}</h3>
-          <p>Цена и наличие — в группе ВКонтакте</p>
-          <a href="${p.vkLink}" target="_blank" rel="noopener noreferrer">Уточнить в VK →</a>
-        </div>
-      </article>
-    `).join('');
   }
 
   function buildMessage(data) {
@@ -119,7 +89,7 @@
 
       const isNetlify = form.hasAttribute('data-netlify');
       if (!isNetlify) {
-        showStatus('Выберите способ связи ниже — WhatsApp или VK. Отправка на сервер не настроена.', 'info');
+        showStatus('Выберите способ связи ниже — WhatsApp или VK.', 'info');
         return;
       }
 
@@ -140,14 +110,52 @@
           throw new Error('Server error');
         }
       } catch {
-        showStatus('Не удалось отправить форму. Позвоните или напишите в WhatsApp / VK — кнопки ниже.', 'error');
+        showStatus('Не удалось отправить форму. Позвоните или напишите в WhatsApp / VK.', 'error');
       } finally {
         if (btn) { btn.disabled = false; btn.textContent = 'Отправить заявку'; }
       }
     });
   }
 
+  function renderCategoryTiles() {
+    const grid = document.getElementById('category-tiles');
+    if (!grid || typeof FORTEO === 'undefined') return;
+
+    grid.innerHTML = FORTEO.productCategories
+      .filter(c => c.id !== 'all' && c.id !== 'other')
+      .slice(0, 8)
+      .map(cat => `
+        <a class="category-tile" href="catalog.html?cat=${cat.id}">
+          <span class="category-tile__icon" aria-hidden="true">${cat.icon}</span>
+          <span class="category-tile__name">${cat.name}</span>
+        </a>
+      `).join('');
+  }
+
+  async function setHeroImage() {
+    const img = document.getElementById('hero-product-img');
+    if (!img || !window.ForteoCatalog) return;
+    try {
+      const data = await ForteoCatalog.loadProducts();
+      const hero = data.products.find(p => p.category === 'kitchen' && p.image && p.price > 45000)
+        || data.products.find(p => p.category === 'living' && p.image)
+        || data.products.find(p => p.image);
+      if (hero) {
+        img.src = hero.image;
+        img.alt = hero.name;
+        const cap = document.getElementById('hero-caption');
+        if (cap) cap.textContent = `${hero.name} — ${hero.priceFormatted || ''}`;
+      }
+    } catch { /* placeholder stays */ }
+  }
+
   initNav();
-  renderCatalog();
   initForm();
+  renderCategoryTiles();
+  setHeroImage();
+
+  if (window.ForteoCatalog) {
+    ForteoCatalog.renderFeatured();
+    ForteoCatalog.initCatalogPage();
+  }
 })();

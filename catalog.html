@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Каталог в наличии — Фортэо | Воронеж</title>
-  <meta name="description" content="Мебель в наличии в Фортэо: стулья Мираж, стол НОРД раздвижной. Актуальные цены — в группе ВКонтакте.">
+  <title>Каталог мебели — 729 товаров | Фортэо, Воронеж</title>
+  <meta name="description" content="Каталог Фортэо: 729 позиций мебели в наличии с ценами и фото. Кухни, гостиные, спальни, столы, шкафы. Фильтр по категориям и цене.">
   <link rel="canonical" href="https://teassty.github.io/forteo/catalog.html">
-  <meta property="og:title" content="Каталог в наличии — Фортэо">
-  <meta property="og:description" content="Складская программа: стулья Мираж, стол НОРД. Цены в VK.">
+  <meta property="og:title" content="Каталог мебели — Фортэо">
+  <meta property="og:description" content="729 товаров в наличии. Цены, фото, заказ через WhatsApp и VK.">
   <meta property="og:url" content="https://teassty.github.io/forteo/catalog.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,39 +38,91 @@
   </header>
 
   <main id="main">
-    <header class="page-head">
+    <header class="page-head page-head--catalog">
       <div class="wrap">
-        <p class="eyebrow">Складская программа</p>
-        <h1>Каталог в наличии</h1>
-        <p>Готовые позиции можно забрать из салона или заказать доставку. Цены и остатки — в маркете группы ВКонтакте.</p>
+        <p class="eyebrow">Интернет-каталог</p>
+        <h1>Каталог мебели</h1>
+        <p id="catalog-subtitle">729 позиций в наличии — кухни, гостиные, спальни, столы и шкафы. Актуальные цены из маркета VK.</p>
       </div>
     </header>
 
-    <section class="section" aria-label="Товары">
-      <div class="wrap">
-        <div class="catalog-grid" id="catalog-grid">
-          <noscript>
-            <article class="product-card">
-              <div class="product-card__body">
-                <h3>Стул Мираж Ромб</h3>
-                <p><a href="https://vk.ru/mebel_fort">Уточнить в VK</a></p>
-              </div>
-            </article>
-            <article class="product-card">
-              <div class="product-card__body">
-                <h3>Стол НОРД раздвижной</h3>
-                <p><a href="https://vk.ru/mebel_fort">Уточнить в VK</a></p>
-              </div>
-            </article>
-          </noscript>
-        </div>
+    <section class="section catalog-section" aria-label="Каталог товаров">
+      <div class="wrap catalog-layout">
+        <aside class="catalog-sidebar" aria-label="Фильтры">
+          <div class="catalog-sidebar__block">
+            <h2 class="catalog-sidebar__title">Категории</h2>
+            <div class="filter-chips" id="catalog-filters"></div>
+          </div>
+          <div class="catalog-sidebar__block">
+            <h2 class="catalog-sidebar__title">Цена, ₽</h2>
+            <div class="price-range">
+              <label class="sr-only" for="price-min">От</label>
+              <input type="number" id="price-min" placeholder="От" min="0" step="100">
+              <span>—</span>
+              <label class="sr-only" for="price-max">До</label>
+              <input type="number" id="price-max" placeholder="До" min="0" step="100">
+            </div>
+          </div>
+          <div class="catalog-sidebar__note">
+            <p>Заказ через WhatsApp или VK — менеджер подтвердит наличие и срок доставки.</p>
+            <a class="btn btn--secondary btn--block" href="https://wa.me/79800935048" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+          </div>
+        </aside>
 
-        <div class="catalog-note">
-          <p>Каталог пополняется. Полный список товаров, фото и цены — в группе <a href="https://vk.ru/mebel_fort" target="_blank" rel="noopener noreferrer">vk.ru/mebel_fort</a>. Нужна консультация — <a href="tel:+79800935048">+7 (980) 093-50-48</a>.</p>
+        <div class="catalog-main">
+          <div class="catalog-toolbar">
+            <div class="catalog-search-wrap">
+              <label class="sr-only" for="catalog-search">Поиск</label>
+              <input type="search" id="catalog-search" placeholder="Поиск по названию…" autocomplete="off">
+            </div>
+            <div class="catalog-toolbar__meta">
+              <span id="catalog-count">Загрузка…</span>
+              <label class="catalog-sort">
+                <span class="sr-only">Сортировка</span>
+                <select id="catalog-sort">
+                  <option value="default">По умолчанию</option>
+                  <option value="price-asc">Сначала дешевле</option>
+                  <option value="price-desc">Сначала дороже</option>
+                  <option value="name">По названию</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <p class="catalog-loading" id="catalog-loading">Загрузка каталога…</p>
+          <div class="catalog-grid" id="catalog-grid"></div>
+          <div id="catalog-pagination"></div>
+
+          <div class="catalog-note">
+            <p>Каталог синхронизирован с <a href="https://vk.ru/market-173630729" target="_blank" rel="noopener noreferrer">маркетом VK</a>. Для консультации — <a href="tel:+79800935048">+7 (980) 093-50-48</a> или салон в ТЦ «Европа», 4 этаж.</p>
+          </div>
         </div>
       </div>
     </section>
   </main>
+
+  <div class="product-modal" id="product-modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="product-modal__backdrop"></div>
+    <div class="product-modal__panel">
+      <button class="product-modal__close" type="button" aria-label="Закрыть">×</button>
+      <div class="product-modal__grid">
+        <div class="product-modal__media">
+          <img class="product-modal__img" src="" alt="">
+        </div>
+        <div class="product-modal__info">
+          <p class="product-card__tag" id="modal-category"></p>
+          <h2 class="product-modal__title" id="modal-title"></h2>
+          <p class="product-modal__price"></p>
+          <p class="product-modal__desc">Товар в наличии на складе. Менеджер уточнит комплектацию, доставку и сборку.</p>
+          <div class="product-modal__actions">
+            <a class="btn btn--primary product-modal__wa" href="#" target="_blank" rel="noopener noreferrer">Заказать в WhatsApp</a>
+            <a class="btn btn--secondary product-modal__vk" href="#" target="_blank" rel="noopener noreferrer">Написать в VK</a>
+            <a class="btn btn--ghost product-modal__phone" href="tel:+79800935048">Позвонить</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <footer class="site-footer">
     <div class="wrap">
@@ -93,6 +145,7 @@
   </footer>
 
   <script src="js/data.js"></script>
+  <script src="js/catalog.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

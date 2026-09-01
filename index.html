@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Фортэо — мебельный центр в Воронеже | без предоплаты</title>
-  <meta name="description" content="Мебельный центр Фортэо: корпусная мебель в наличии и на заказ. ТЦ «Европа», 4 этаж. Рассрочка без %, без предоплаты, бесплатный 3D-эскиз.">
+  <title>Фортэо — мебельный магазин в Воронеже | 729 товаров в наличии</title>
+  <meta name="description" content="Интернет-каталог Фортэо: 729 позиций мебели в наличии — кухни, гостиные, спальни, столы и стулья. Рассрочка без банка, доставка по России. ТЦ «Европа», Воронеж.">
   <link rel="canonical" href="https://teassty.github.io/forteo/">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Фортэо — мебельный центр в Воронеже">
-  <meta property="og:description" content="Корпусная мебель от фабрики. Рассрочка без банка, без предоплаты.">
+  <meta property="og:title" content="Фортэо — мебельный магазин в Воронеже">
+  <meta property="og:description" content="729 товаров в каталоге. Рассрочка без банка, без предоплаты.">
   <meta property="og:url" content="https://teassty.github.io/forteo/">
   <meta property="og:locale" content="ru_RU">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,7 +21,7 @@
     "@context": "https://schema.org",
     "@type": "FurnitureStore",
     "name": "Фортэо",
-    "description": "Мебельный центр. Корпусная мебель в наличии и на заказ.",
+    "description": "Мебельный центр. 729 товаров в каталоге.",
     "url": "https://teassty.github.io/forteo/",
     "telephone": "+7-980-093-50-48",
     "sameAs": ["https://vk.ru/mebel_fort"],
@@ -55,7 +55,7 @@
       </nav>
       <div class="header-contact">
         <a class="header-phone" href="tel:+79800935048">+7 (980) 093-50-48</a>
-        <a class="btn btn--primary" href="tel:+79800935048">Позвонить</a>
+        <a class="btn btn--primary" href="catalog.html">В каталог</a>
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Меню">
           <span></span><span></span><span></span>
         </button>
@@ -64,29 +64,37 @@
   </header>
 
   <main id="main">
-    <div class="wrap hero">
-      <div class="hero__content">
-        <p class="eyebrow">Мебельный центр · Воронеж</p>
-        <h1>Мебель без переплат и&nbsp;без предоплаты</h1>
-        <p class="hero__lead">Корпусная мебель в наличии и на заказ — прямые поставки с фабрики. Рассрочка без банка, бесплатный 3D-эскиз за 2 дня.</p>
-        <div class="hero__actions">
-          <a class="btn btn--primary" href="tel:+79800935048">+7 (980) 093-50-48</a>
-          <a class="btn btn--secondary" href="catalog.html">Каталог в наличии</a>
+    <section class="hero hero--store">
+      <div class="wrap hero__grid">
+        <div class="hero__content">
+          <p class="eyebrow">Мебельный центр · Воронеж</p>
+          <h1>Мебель в&nbsp;наличии — <span class="text-accent">729 позиций</span> в&nbsp;каталоге</h1>
+          <p class="hero__lead">Кухни, гостиные, спальни, столы и стулья — с фото и ценами. Рассрочка без банка, бесплатный 3D-эскиз, доставка по России.</p>
+          <div class="hero__actions">
+            <a class="btn btn--primary btn--lg" href="catalog.html">Смотреть каталог</a>
+            <a class="btn btn--secondary btn--lg" href="tel:+79800935048">+7 (980) 093-50-48</a>
+          </div>
+          <ul class="hero__facts">
+            <li>Гарантия до 3 лет</li>
+            <li>Без предоплаты</li>
+            <li>25 подборок</li>
+          </ul>
         </div>
-        <ul class="hero__facts">
-          <li>Гарантия до 3 лет</li>
-          <li>15 рабочих дней на изготовление</li>
-          <li>Доставка по России</li>
-        </ul>
+        <div class="hero__media hero__media--product">
+          <figure>
+            <img id="hero-product-img" src="assets/img/placeholder.svg" alt="Мебель Фортэо" width="600" height="720" decoding="async">
+            <figcaption id="hero-caption">Каталог обновлён из VK · актуальные цены</figcaption>
+          </figure>
+        </div>
       </div>
-      <div class="hero__media">
-        <figure>
-          <picture>
-            <source type="image/svg+xml" srcset="assets/img/placeholder.svg">
-            <img src="assets/img/placeholder.svg" alt="" width="800" height="600" decoding="async">
-          </picture>
-          <figcaption>Фото салона в ТЦ «Европа» — будет добавлено</figcaption>
-        </figure>
+    </section>
+
+    <div class="stats-bar">
+      <div class="wrap stats-bar__grid">
+        <div class="stat"><strong>729</strong><span>товаров в каталоге</span></div>
+        <div class="stat"><strong>25</strong><span>подборок</span></div>
+        <div class="stat"><strong>3 года</strong><span>гарантия</span></div>
+        <div class="stat"><strong>0%</strong><span>рассрочка без банка</span></div>
       </div>
     </div>
 
@@ -101,24 +109,65 @@
       </div>
     </div>
 
-    <section class="section section--edge" aria-labelledby="about-heading">
+    <section class="section section--surface" aria-labelledby="categories-heading">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Каталог</p>
+            <h2 class="section-title" id="categories-heading">Выберите категорию</h2>
+          </div>
+          <a class="section-link" href="catalog.html">Весь каталог →</a>
+        </div>
+        <div class="category-tiles" id="category-tiles"></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="featured-heading">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Популярное</p>
+            <h2 class="section-title" id="featured-heading">Товары в наличии</h2>
+          </div>
+          <a class="section-link" href="catalog.html">Все 729 товаров →</a>
+        </div>
+        <div class="catalog-grid catalog-grid--featured" id="featured-grid">
+          <p class="catalog-loading">Загрузка каталога…</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--edge cta-banner" aria-label="Призыв к действию">
+      <div class="wrap cta-banner__inner">
+        <div>
+          <h2 class="section-title">Нужен индивидуальный проект?</h2>
+          <p>Кухня, шкаф или гостиная по вашим размерам — бесплатный замер и 3D-эскиз за 2 дня.</p>
+        </div>
+        <div class="cta-banner__actions">
+          <a class="btn btn--primary" href="zakaz.html">Мебель на заказ</a>
+          <a class="btn btn--ghost" href="https://vk.ru/mebel_fort" target="_blank" rel="noopener noreferrer">Группа VK</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--surface" aria-labelledby="about-heading">
       <div class="wrap split">
         <div>
-          <h2 class="section-title" id="about-heading">Мебельный центр в&nbsp;ТЦ&nbsp;«Европа»</h2>
-          <p>Фортэо помогает обставить квартиру стильной и удобной мебелью по приятным ценам — от готовых позиций со склада до проектов под ваши размеры.</p>
-          <p>Салон на 4 этаже ТЦ «Европа»: можно посмотреть материалы, обсудить задачу с менеджером и получить расчёт. Также работаем в Лисках.</p>
+          <h2 class="section-title" id="about-heading">Салон в&nbsp;ТЦ&nbsp;«Европа»</h2>
+          <p>Фортэо — более 14 лет на рынке. Прямые поставки с 50+ российских фабрик, собственное производство и каменные столешницы.</p>
+          <p>На 4 этаже ТЦ «Европа» можно посмотреть материалы, обсудить проект и получить расчёт. Также работаем в Лисках.</p>
           <div class="link-row">
-            <a class="btn btn--secondary" href="zakaz.html">Мебель на заказ</a>
-            <a class="btn btn--ghost" href="https://vk.ru/mebel_fort" target="_blank" rel="noopener noreferrer">Группа VK</a>
+            <a class="btn btn--secondary" href="kontakty.html">Контакты и адрес</a>
           </div>
         </div>
         <div>
-          <h2 class="section-title">Что можно заказать</h2>
-          <p>Кухни, спальни, гостиные, шкафы-купе, детские и прихожие. Корпусная мебель по индивидуальным размерам с бесплатным замером.</p>
-          <p>В наличии — стулья серии Мираж и раздвижной стол НОРД. Полный ассортимент и актуальные цены — в каталоге VK.</p>
-          <div class="link-row">
-            <a href="catalog.html">Смотреть каталог →</a>
-          </div>
+          <h2 class="section-title">Почему Фортэо</h2>
+          <ul class="benefit-list">
+            <li>Цены на 20–30% ниже крупных салонов</li>
+            <li>Официальный договор и гарантия 3 года</li>
+            <li>Изготовление от 15 рабочих дней</li>
+            <li>Повторные заказы — с бесплатной доставкой</li>
+          </ul>
         </div>
       </div>
     </section>
@@ -139,14 +188,16 @@
         </nav>
         <nav class="footer-nav" aria-label="Соцсети">
           <a href="https://vk.ru/mebel_fort" target="_blank" rel="noopener noreferrer">ВКонтакте</a>
+          <a href="https://vk.ru/market-173630729" target="_blank" rel="noopener noreferrer">Маркет VK</a>
           <a href="https://wa.me/79800935048" target="_blank" rel="noopener noreferrer">WhatsApp</a>
         </nav>
       </div>
-      <p class="footer-copy">© 2026 Фортэо. Информация на сайте не является публичной офертой.</p>
+      <p class="footer-copy">© 2026 Фортэо. Цены и наличие синхронизированы с каталогом VK. Не является публичной офертой.</p>
     </div>
   </footer>
 
   <script src="js/data.js"></script>
+  <script src="js/catalog.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

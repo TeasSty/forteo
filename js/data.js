@@ -1,15 +1,21 @@
 /**
- * Единый источник данных — Фортэо
- * Источники: vk.ru/mebel_fort, 2GIS, карточки организаций
+ * Фортэо — конфигурация магазина
+ * Каталог товаров: js/products.json (источник VK market-173630729)
  */
 const FORTEO = {
   brand: 'Фортэо',
   legalNote: 'Мебельный центр',
   tagline: 'Корпусная мебель в наличии и на заказ — от фабрики до вашего дома',
 
+  stats: {
+    products: 729,
+    collections: 25,
+    followers: 8041,
+  },
+
   offer: {
-    headline: 'Мебель без переплат и без предоплаты',
-    subline: 'Рассрочка без банка, бесплатный 3D-эскиз за 2 дня, гарантия до 3 лет',
+    headline: 'Мебель без переплат и&nbsp;без предоплаты',
+    subline: '729 позиций в наличии · рассрочка без банка · бесплатный 3D-эскиз за 2 дня',
     cta: 'Позвонить',
     ctaHref: 'tel:+79800935048',
   },
@@ -19,34 +25,19 @@ const FORTEO = {
     { text: 'Работаем без предоплаты' },
     { text: 'Бесплатный 3D-эскиз за 2 дня' },
     { text: 'Гарантия до 3 лет' },
-    { text: 'Изготовление за 15 рабочих дней' },
+    { text: '729 товаров в каталоге' },
     { text: 'Доставка по всей России' },
-    { text: 'Складская программа по основным позициям' },
   ],
 
   phones: [
-    {
-      city: 'Воронеж',
-      primary: true,
-      tel: '+79800935048',
-      display: '+7 (980) 093-50-48',
-    },
-    {
-      city: 'Воронеж',
-      primary: false,
-      tel: '+79204389090',
-      display: '+7 (920) 438-90-90',
-    },
-    {
-      city: 'Лиски',
-      primary: false,
-      tel: '+79204407018',
-      display: '+7 (920) 440-70-18',
-    },
+    { city: 'Воронеж', primary: true, tel: '+79800935048', display: '+7 (980) 093-50-48' },
+    { city: 'Воронеж', primary: false, tel: '+79204389090', display: '+7 (920) 438-90-90' },
+    { city: 'Лиски', primary: false, tel: '+79204407018', display: '+7 (920) 440-70-18' },
   ],
 
   whatsapp: '79800935048',
   vk: 'https://vk.ru/mebel_fort',
+  vkMarket: 'https://vk.ru/market-173630729',
   vkMessage: 'https://vk.me/mebel_fort',
 
   locations: [
@@ -72,6 +63,31 @@ const FORTEO = {
 
   payment: ['Наличные', 'Банковская карта', 'QR-код', 'Рассрочка'],
 
+  productCategories: [
+    { id: 'all', name: 'Все товары', icon: '◈' },
+    { id: 'kitchen', name: 'Кухни', icon: '◫' },
+    { id: 'living', name: 'Гостиные', icon: '▣' },
+    { id: 'bedroom', name: 'Спальни', icon: '▤' },
+    { id: 'wardrobe', name: 'Шкафы', icon: '▥' },
+    { id: 'tables-chairs', name: 'Столы и стулья', icon: '◧' },
+    { id: 'soft', name: 'Мягкая мебель', icon: '◨' },
+    { id: 'hallway', name: 'Прихожие', icon: '◩' },
+    { id: 'children', name: 'Детские', icon: '◪' },
+    { id: 'other', name: 'Другое', icon: '◫' },
+  ],
+
+  collections: [
+    { id: 'stoly-stulya', name: 'Столы и стулья', category: 'tables-chairs' },
+    { id: 'kuhni-ksenia', name: 'Кухни Ксения', category: 'kitchen' },
+    { id: 'kuhni-evroluks', name: 'Кухонные гарнитуры Евролюкс', category: 'kitchen' },
+    { id: 'myagkaya', name: 'Мягкая мебель', category: 'soft' },
+    { id: 'shkafy', name: 'Шкафы распашные', category: 'wardrobe' },
+    { id: 'spalni-mdf', name: 'Спальни МДФ', category: 'bedroom' },
+    { id: 'spalni-ldsp', name: 'Спальни ЛДСП', category: 'bedroom' },
+    { id: 'gostinye', name: 'Гостиные МДФ', category: 'living' },
+    { id: 'stenki', name: 'Стенки ЛДСП', category: 'living' },
+  ],
+
   categories: [
     { id: 'kitchen', name: 'Кухни' },
     { id: 'bedroom', name: 'Спальни' },
@@ -81,67 +97,17 @@ const FORTEO = {
     { id: 'hallway', name: 'Прихожие' },
   ],
 
-  // Товары — названия из VK-маркета; цены уточняются в группе
-  products: [
-    {
-      id: 'mirazh-romb',
-      name: 'Стул Мираж Ромб',
-      category: 'chairs',
-      inStock: true,
-      vkLink: 'https://vk.ru/mebel_fort',
-      image: null,
-    },
-    {
-      id: 'mirazh-gray',
-      name: 'Стул Мираж (серый)',
-      category: 'chairs',
-      inStock: true,
-      vkLink: 'https://vk.ru/mebel_fort',
-      image: null,
-    },
-    {
-      id: 'mirazh-white',
-      name: 'Стул Мираж (белый)',
-      category: 'chairs',
-      inStock: true,
-      vkLink: 'https://vk.ru/mebel_fort',
-      image: null,
-    },
-    {
-      id: 'mirazh-croc',
-      name: 'Стул Мираж (крокодил бежевый)',
-      category: 'chairs',
-      inStock: true,
-      vkLink: 'https://vk.ru/mebel_fort',
-      image: null,
-    },
-    {
-      id: 'nord-table',
-      name: 'Стол НОРД раздвижной',
-      category: 'tables',
-      inStock: true,
-      vkLink: 'https://vk.ru/mebel_fort',
-      image: null,
-    },
+  featuredProductIds: [
+    'стул-мираж-ромб-0',
+    'стол-норд-раздвижной-4',
+    'кухонный-гарнитур-2-8х1-2-м-угловой-ксения',
   ],
 
   process: [
-    {
-      title: 'Замер',
-      text: 'Бесплатный выезд замерщика. Обсуждаем задачу, материалы и бюджет.',
-    },
-    {
-      title: '3D-эскиз',
-      text: 'Готовим визуализацию за 2 дня — до начала производства.',
-    },
-    {
-      title: 'Изготовление',
-      text: 'Производство на фабрике, срок — 15 рабочих дней.',
-    },
-    {
-      title: 'Доставка и сборка',
-      text: 'Привозим и устанавливаем. Гарантия — до 3 лет.',
-    },
+    { title: 'Замер', text: 'Бесплатный выезд замерщика. Обсуждаем задачу, материалы и бюджет.' },
+    { title: '3D-эскиз', text: 'Готовим визуализацию за 2 дня — до начала производства.' },
+    { title: 'Изготовление', text: 'Производство на фабрике, срок — 15 рабочих дней.' },
+    { title: 'Доставка и сборка', text: 'Привозим и устанавливаем. Гарантия — до 3 лет.' },
   ],
 
   site: {
