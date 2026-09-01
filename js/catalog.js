@@ -43,6 +43,7 @@
     fuseIndex = null;
   }
 
+  function categoryLabel(id) {
     return FORTEO.productCategories.find(c => c.id === id)?.name || 'Каталог';
   }
 
