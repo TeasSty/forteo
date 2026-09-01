@@ -19,6 +19,17 @@
     });
   }
 
+  function initHeaderScroll() {
+    const header = document.getElementById('site-header');
+    if (!header || !header.classList.contains('site-header--hero')) return;
+
+    const onScroll = () => {
+      header.classList.toggle('is-scrolled', window.scrollY > 60);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
   function buildMessage(data) {
     const lines = ['Здравствуйте! Заявка с сайта Фортэо.'];
     if (data.name) lines.push(`Имя: ${data.name}`);
@@ -117,32 +128,59 @@
     });
   }
 
-  function renderCategoryTiles() {
+  async function renderCategoryTiles() {
     const grid = document.getElementById('category-tiles');
-    if (!grid || typeof FORTEO === 'undefined') return;
+    if (!grid || typeof FORTEO === 'undefined' || !window.ForteoCatalog) return;
 
-    grid.innerHTML = FORTEO.productCategories
-      .filter(c => c.id !== 'all' && c.id !== 'other')
-      .slice(0, 8)
-      .map(cat => `
-        <a class="category-tile" href="catalog.html?cat=${cat.id}">
-          <span class="category-tile__icon" aria-hidden="true">${cat.icon}</span>
-          <span class="category-tile__name">${cat.name}</span>
-        </a>
-      `).join('');
+    try {
+      const data = await ForteoCatalog.loadProducts();
+      const cats = FORTEO.productCategories
+        .filter(c => c.id !== 'all' && c.id !== 'other')
+        .slice(0, 8);
+
+      grid.innerHTML = cats.map(cat => {
+        const count = data.products.filter(p => p.category === cat.id).length;
+        const img = ForteoCatalog.categoryCoverImage(data.products, cat.id);
+        const bg = img
+          ? `<div class="category-tile__bg"><img src="${img}" alt="" loading="lazy" decoding="async"></div>`
+          : '';
+        return `
+          <a class="category-tile" href="catalog.html?cat=${cat.id}">
+            ${bg}
+            <span class="category-tile__name">${cat.name}</span>
+            <span class="category-tile__count">${count} товаров</span>
+          </a>`;
+      }).join('');
+    } catch {
+      grid.innerHTML = FORTEO.productCategories
+        .filter(c => c.id !== 'all' && c.id !== 'other')
+        .slice(0, 8)
+        .map(cat => `
+          <a class="category-tile" href="catalog.html?cat=${cat.id}">
+            <span class="category-tile__name">${cat.name}</span>
+          </a>
+        `).join('');
+    }
   }
 
   async function setHeroImage() {
     const img = document.getElementById('hero-product-img');
+    const bg = document.getElementById('hero-bg');
     if (!img || !window.ForteoCatalog) return;
+
     try {
       const data = await ForteoCatalog.loadProducts();
-      const hero = data.products.find(p => p.category === 'kitchen' && p.image && p.price > 45000)
-        || data.products.find(p => p.category === 'living' && p.image)
-        || data.products.find(p => p.image);
+      const hero = data.products.find(p => p.category === 'kitchen' && (p.imageLocal || p.image) && p.price > 45000)
+        || data.products.find(p => p.category === 'living' && (p.imageLocal || p.image))
+        || data.products.find(p => p.imageLocal || p.image);
+
       if (hero) {
-        img.src = hero.image;
+        const src = ForteoCatalog.productImageSrc(hero);
+        img.src = src;
         img.alt = hero.name;
+        if (bg) {
+          bg.innerHTML = `<img src="${src}" alt="" loading="eager">`;
+        }
         const cap = document.getElementById('hero-caption');
         if (cap) cap.textContent = `${hero.name} — ${hero.priceFormatted || ''}`;
       }
@@ -150,6 +188,7 @@
   }
 
   initNav();
+  initHeaderScroll();
   initForm();
   renderCategoryTiles();
   setHeroImage();

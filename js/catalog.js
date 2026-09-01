@@ -31,9 +31,16 @@
     return FORTEO.productCategories.find(c => c.id === id)?.name || 'Каталог';
   }
 
-  function productImage(product) {
-    const src = product.image || PLACEHOLDER;
-    return `<img src="${src}" alt="${escapeHtml(product.name)}" width="400" height="300" loading="lazy" decoding="async">`;
+  /** Лучший доступный URL изображения */
+  function productImageSrc(product) {
+    return product.imageLocal || product.imageHd || product.image || PLACEHOLDER;
+  }
+
+  function productImage(product, opts = {}) {
+    const src = productImageSrc(product);
+    const w = opts.large ? 360 : 180;
+    const h = opts.large ? 360 : 180;
+    return `<img class="product-img" src="${src}" alt="${escapeHtml(product.name)}" width="${w}" height="${h}" loading="lazy" decoding="async">`;
   }
 
   function escapeHtml(str) {
@@ -208,7 +215,7 @@
     modal.querySelector('.product-modal__title').textContent = product.name;
     modal.querySelector('.product-modal__price').textContent = product.priceFormatted || fmt(product.price);
     modal.querySelector('.product-modal__category').textContent = categoryLabel(product.category);
-    modal.querySelector('.product-modal__img').src = product.image || PLACEHOLDER;
+    modal.querySelector('.product-modal__img').src = productImageSrc(product);
     modal.querySelector('.product-modal__img').alt = product.name;
     modal.querySelector('.product-modal__wa').href = `https://wa.me/${FORTEO.whatsapp}?text=${orderMessage(product)}`;
     modal.querySelector('.product-modal__vk').href = `${FORTEO.vkMessage}?text=${orderMessage(product)}`;
@@ -297,6 +304,12 @@
       initControls();
       initModal();
       updatePageTitle();
+
+      const highlight = getParam('highlight');
+      if (highlight) {
+        const product = state.products.find(p => p.id === highlight);
+        if (product) openModal(product);
+      }
     } catch (err) {
       if (loading) loading.textContent = 'Не удалось загрузить каталог. Откройте vk.ru/mebel_fort или позвоните нам.';
       console.error(err);
@@ -309,8 +322,8 @@
 
     try {
       const data = await loadProducts();
-      const featured = pickFeatured(data.products, 8);
-      grid.innerHTML = featured.map(renderProductCard).join('');
+      const featured = pickFeatured(data.products, 12);
+      grid.innerHTML = featured.map(p => `<div class="swiper-slide">${renderProductCard(p)}</div>`).join('');
 
       grid.querySelectorAll('.product-card__link').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -318,8 +331,21 @@
           window.location.href = `catalog.html?highlight=${encodeURIComponent(id || '')}`;
         });
       });
+
+      if (typeof Swiper !== 'undefined' && document.querySelector('.featured-swiper')) {
+        new Swiper('.featured-swiper', {
+          slidesPerView: 1.2,
+          spaceBetween: 16,
+          navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+          breakpoints: {
+            640: { slidesPerView: 2.2 },
+            900: { slidesPerView: 3.2 },
+            1200: { slidesPerView: 4 },
+          },
+        });
+      }
     } catch {
-      grid.innerHTML = '<p class="muted">Каталог загружается. <a href="catalog.html">Перейти в каталог →</a></p>';
+      grid.innerHTML = '<div class="swiper-slide"><p class="catalog-loading"><a href="catalog.html">Перейти в каталог →</a></p></div>';
     }
   }
 
@@ -327,19 +353,32 @@
     const picks = [];
     const buckets = ['tables-chairs', 'kitchen', 'living', 'bedroom', 'soft'];
     for (const cat of buckets) {
-      const item = products.find(p => p.category === cat && p.image);
+      const item = products.find(p => p.category === cat && (p.imageLocal || p.image));
       if (item) picks.push(item);
     }
     for (const p of products) {
-      if (p.image && !picks.includes(p) && p.price >= 20000) picks.push(p);
+      if ((p.imageLocal || p.image) && !picks.includes(p) && p.price >= 20000) picks.push(p);
       if (picks.length >= n) break;
     }
     for (const p of products) {
-      if (p.image && !picks.includes(p)) picks.push(p);
+      if ((p.imageLocal || p.image) && !picks.includes(p)) picks.push(p);
       if (picks.length >= n) break;
     }
     return picks.slice(0, n);
   }
 
-  window.ForteoCatalog = { initCatalogPage, renderFeatured, loadProducts, fmt };
+  /** Изображение категории из первого товара */
+  function categoryCoverImage(products, categoryId) {
+    const p = products.find(x => x.category === categoryId && (x.imageLocal || x.image));
+    return p ? productImageSrc(p) : null;
+  }
+
+  window.ForteoCatalog = {
+    initCatalogPage,
+    renderFeatured,
+    loadProducts,
+    productImageSrc,
+    categoryCoverImage,
+    fmt,
+  };
 })();
