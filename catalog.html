@@ -12,6 +12,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/vendor.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@5.4.4/dist/photoswipe.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="assets/img/placeholder.svg" type="image/svg+xml">
 </head>
@@ -107,7 +109,9 @@
       <button class="product-modal__close" type="button" aria-label="Закрыть">×</button>
       <div class="product-modal__grid">
         <div class="product-modal__media">
-          <img class="product-modal__img" src="" alt="">
+          <button class="product-modal__zoom" type="button" aria-label="Увеличить фото">
+            <img class="product-modal__img" src="" alt="">
+          </button>
         </div>
         <div class="product-modal__info">
           <p class="product-card__tag" id="modal-category"></p>
@@ -144,6 +148,8 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.1.0/dist/fuse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@5.4.4/dist/photoswipe.umd.min.js"></script>
   <script src="js/data.js"></script>
   <script src="js/catalog.js"></script>
   <script src="js/main.js"></script>

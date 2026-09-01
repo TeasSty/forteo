@@ -3,6 +3,7 @@
 
   const PLACEHOLDER = 'assets/img/placeholder.svg';
   const PAGE_SIZE = 24;
+  let fuseIndex = null;
   const state = {
     products: [],
     filtered: [],
@@ -27,7 +28,21 @@
     history.replaceState(null, '', url);
   }
 
-  function categoryLabel(id) {
+  function getFuseIndex() {
+    if (!fuseIndex && typeof Fuse !== 'undefined' && state.products.length) {
+      fuseIndex = new Fuse(state.products, {
+        keys: ['name'],
+        threshold: 0.35,
+        ignoreLocation: true,
+      });
+    }
+    return fuseIndex;
+  }
+
+  function resetFuseIndex() {
+    fuseIndex = null;
+  }
+
     return FORTEO.productCategories.find(c => c.id === id)?.name || 'Каталог';
   }
 
@@ -82,8 +97,14 @@
     }
 
     if (state.query) {
-      const q = state.query.toLowerCase();
-      list = list.filter(p => p.name.toLowerCase().includes(q));
+      const fuse = getFuseIndex();
+      if (fuse) {
+        const matched = new Set(fuse.search(state.query).map(r => r.item.id));
+        list = list.filter(p => matched.has(p.id));
+      } else {
+        const q = state.query.toLowerCase();
+        list = list.filter(p => p.name.toLowerCase().includes(q));
+      }
     }
 
     if (state.priceMin != null) list = list.filter(p => p.price >= state.priceMin);
@@ -208,6 +229,20 @@
     }
   }
 
+  function openProductLightbox(src, alt) {
+    if (typeof PhotoSwipe === 'undefined') {
+      window.open(src, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    const pswp = new PhotoSwipe({
+      dataSource: [{ src, width: 960, height: 1152, alt }],
+      index: 0,
+      bgOpacity: 0.92,
+      padding: { top: 20, bottom: 20, left: 20, right: 20 },
+    });
+    pswp.init();
+  }
+
   function openModal(product) {
     const modal = document.getElementById('product-modal');
     if (!modal) return;
@@ -215,11 +250,18 @@
     modal.querySelector('.product-modal__title').textContent = product.name;
     modal.querySelector('.product-modal__price').textContent = product.priceFormatted || fmt(product.price);
     modal.querySelector('.product-modal__category').textContent = categoryLabel(product.category);
-    modal.querySelector('.product-modal__img').src = productImageSrc(product);
-    modal.querySelector('.product-modal__img').alt = product.name;
+    const img = modal.querySelector('.product-modal__img');
+    const src = productImageSrc(product);
+    img.src = src;
+    img.alt = product.name;
     modal.querySelector('.product-modal__wa').href = `https://wa.me/${FORTEO.whatsapp}?text=${orderMessage(product)}`;
     modal.querySelector('.product-modal__vk').href = `${FORTEO.vkMessage}?text=${orderMessage(product)}`;
     modal.querySelector('.product-modal__phone').href = FORTEO.offer.ctaHref;
+
+    const zoomBtn = modal.querySelector('.product-modal__zoom');
+    if (zoomBtn) {
+      zoomBtn.onclick = () => openProductLightbox(src, product.name);
+    }
 
     modal.hidden = false;
     document.body.classList.add('modal-open');
@@ -298,6 +340,7 @@
     const loading = document.getElementById('catalog-loading');
     try {
       await loadProducts();
+      resetFuseIndex();
       if (loading) loading.hidden = true;
       renderCategoryFilters();
       renderCatalog();
@@ -332,8 +375,10 @@
         });
       });
 
-      if (typeof Swiper !== 'undefined' && document.querySelector('.featured-swiper')) {
-        new Swiper('.featured-swiper', {
+      const swiperEl = document.querySelector('.featured-swiper');
+      if (typeof Swiper !== 'undefined' && swiperEl) {
+        if (swiperEl.swiper) swiperEl.swiper.destroy(true, true);
+        new Swiper(swiperEl, {
           slidesPerView: 1.2,
           spaceBetween: 16,
           navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },

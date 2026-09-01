@@ -686,6 +686,10 @@ h2.section-title {
 
 .catalog-grid--featured { min-height: 200px; }
 
+.featured-swiper .product-card {
+  height: 100%;
+}
+
 /* ——— Swiper featured ——— */
 .featured-swiper {
   position: relative;
@@ -1035,6 +1039,20 @@ body.modal-open { overflow: hidden; }
   align-items: center;
   justify-content: center;
   min-height: 400px;
+}
+
+.product-modal__zoom {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: zoom-in;
+}
+
+.product-modal__zoom:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
 }
 
 .product-modal__img,
